@@ -20,7 +20,6 @@ class ProductManager {
     product.id = this.products.length + 1;
 
     if (!title || !description || !price || !thumbnail || !code || !stock) {
-      // console.log("Productos ya existente");
       return;
     }
 
@@ -29,7 +28,6 @@ class ProductManager {
     );
     if (productCode === -1) {
       this.products.push(product);
-      console.log("Producto agregado");
       return;
     } else {
       console.log(
@@ -66,6 +64,17 @@ runExercise.addProduct(
   "Sin imagen",
   "abc123",
   25
+);
+console.log(runExercise.getProducts());
+console.log(runExercise.getProductById(2));
+
+runExercise.addProduct(
+  "MacBook Air",
+  "Revolucionado con el nuevo chip M2",
+  1500,
+  "Sin imagen",
+  "AA89R45Q",
+  50
 );
 console.log(runExercise.getProducts());
 console.log(runExercise.getProductById(1));
