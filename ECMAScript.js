@@ -45,10 +45,15 @@ class ProductManager {
     }
   };
 }
-const runExercise = new ProductManager();
 
-console.log(runExercise.getProducts());
-runExercise.addProduct(
+const testProductManager = new ProductManager();
+
+console.log("TEST 1");
+console.log(
+  "Probando que el testProductManager se inicializa con una lista vacia de productos"
+);
+console.log(testProductManager.getProducts());
+testProductManager.addProduct(
   "producto prueba",
   "Este es un producto prueba",
   200,
@@ -56,19 +61,7 @@ runExercise.addProduct(
   "abc123",
   25
 );
-
-runExercise.addProduct(
-  "producto prueba",
-  "Este es un producto prueba",
-  200,
-  "Sin imagen",
-  "abc123",
-  25
-);
-console.log(runExercise.getProducts());
-console.log(runExercise.getProductById(2));
-
-runExercise.addProduct(
+testProductManager.addProduct(
   "MacBook Air",
   "Revolucionado con el nuevo chip M2",
   1500,
@@ -76,5 +69,19 @@ runExercise.addProduct(
   "AA89R45Q",
   50
 );
-console.log(runExercise.getProducts());
-console.log(runExercise.getProductById(1));
+console.log("===============");
+console.log("Productos:", testProductManager.getProducts());
+console.log("El producto encontrado es:", testProductManager.getProductById(3));
+
+console.log("===============");
+console.log("TEST 2");
+testProductManager.addProduct(
+  "producto prueba",
+  "Este es un producto prueba",
+  200,
+  "Sin imagen",
+  "abc123",
+  25
+);
+console.log("Productos:", testProductManager.getProducts());
+console.log(testProductManager.getProductById(2));
