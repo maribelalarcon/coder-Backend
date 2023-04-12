@@ -1,9 +1,7 @@
 {
   "name": "backendcoderhouse",
   "version": "1.0.0",
-  "description": "",
   "main": "ECMAScript.js",
-  
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,5 +15,11 @@
     "url": "https://github.com/maribelalarcon/coder-Backend/issues"
   },
   "homepage": "https://github.com/maribelalarcon/coder-Backend#readme",
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {},
+  "keywords": [],
+  "description": ""
 }
