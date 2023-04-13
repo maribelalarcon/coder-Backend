@@ -106,62 +106,62 @@ export default class ProductManager {
   };
 }
 
-const manager = new ProductManager("./products.json");
-const products = await manager.getProducts();
+// const manager = new ProductManager("./products.json");
+// const products = await manager.getProducts();
 
-console.log("TEST 1");
-console.log("Al principio la lista de productos esta vacia:", products);
-console.log();
-console.log("===============");
+// console.log("TEST 1");
+// console.log("Al principio la lista de productos esta vacia:", products);
+// console.log();
+// console.log("===============");
 
-console.log("TEST 2");
-console.log("Es posible agregar un nuevo producto");
+// console.log("TEST 2");
+// console.log("Es posible agregar un nuevo producto");
 
-await manager.addProduct(
-  "producto prueba",
-  "Este es un producto prueba",
-  200,
-  "Sin imagen",
-  "abc123",
-  25
-);
+// await manager.addProduct(
+//   "producto prueba",
+//   "Este es un producto prueba",
+//   200,
+//   "Sin imagen",
+//   "abc123",
+//   25
+// );
 
-console.log("products:", await manager.getProducts());
+// console.log("products:", await manager.getProducts());
 
-console.log();
-console.log("===============");
+// console.log();
+// console.log("===============");
 
-console.log("Luego sera posible obtener un producto con su id");
-console.log("product", await manager.getProductById(1));
-console.log();
-console.log("===============");
+// console.log("Luego sera posible obtener un producto con su id");
+// console.log("product", await manager.getProductById(1));
+// console.log();
+// console.log("===============");
 
-console.log("Tambien sera posible actualizar un producto especifico con el id");
+// console.log("Tambien sera posible actualizar un producto especifico con el id");
 
-await manager.addProduct(
-  "MacBook Air",
-  "Revolucionado con el nuevo chip M2",
-  1500,
-  "Sin imagen",
-  "AA89R45Q",
-  50
-);
+// await manager.addProduct(
+//   "MacBook Air",
+//   "Revolucionado con el nuevo chip M2",
+//   1500,
+//   "Sin imagen",
+//   "AA89R45Q",
+//   50
+// );
 
-const macbook = await manager.getProductById(2);
+// const macbook = await manager.getProductById(2);
 
-console.log("macbook", macbook, await manager.getProducts());
+// console.log("macbook", macbook, await manager.getProducts());
 
-await manager.updateProduct(2, {
-  ...macbook,
-  title: "Macbook Pro",
-});
+// await manager.updateProduct(2, {
+//   ...macbook,
+//   title: "Macbook Pro",
+// });
 
-console.log("products", await manager.getProducts());
+// console.log("products", await manager.getProducts());
 
-console.log("Tambien es posible eliminar un producto por id");
-await manager.deleteProduct(2);
+// console.log("Tambien es posible eliminar un producto por id");
+// await manager.deleteProduct(2);
 
-console.log("products", await manager.getProducts());
+// console.log("products", await manager.getProducts());
 
-console.log();
-console.log("===============");
+// console.log();
+// console.log("===============");
