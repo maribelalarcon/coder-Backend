@@ -19,25 +19,28 @@ export default class ProductManager {
     }
   };
 
-  addProduct = async (title, description, price, thumbnail, code, stock) => {
+  addProduct = async (productData) => {
     try {
       const products = await this.getProducts();
-
       const product = {
-        title,
-        description,
-        price,
-        thumbnail,
-        code,
-        stock,
+        id: products.length + 1,
+        status: true,
+        ...productData,
       };
-      product.id = products.length + 1;
 
-      if (!title || !description || !price || !thumbnail || !code || !stock) {
+      if (
+        !product.title ||
+        !product.description ||
+        !product.price ||
+        !product.thumbnails ||
+        !product.code ||
+        !product.stock ||
+        !product.category
+      ) {
         return;
       }
       const productCode = products.findIndex(
-        (product) => product.code === code
+        (_product) => _product.code === product.code
       );
 
       if (productCode === -1) {
@@ -47,7 +50,7 @@ export default class ProductManager {
           this.path,
           JSON.stringify(products, null, "\t")
         );
-        return;
+        return product;
       }
     } catch (error) {
       console.log(
@@ -80,13 +83,21 @@ export default class ProductManager {
         (product) => product.id === idProduct
       );
 
-      if (productIndex) {
-        products[productIndex] = product;
+      if (product.id) {
+        return;
+      }
+
+      if (productIndex !== -1) {
+        products[productIndex] = {
+          ...products[productIndex],
+          ...product,
+        };
 
         await fs.promises.writeFile(
           this.path,
           JSON.stringify(products, null, "\t")
         );
+        return products[productIndex];
       } else {
         console.log("Producto no existe", idProduct);
       }
@@ -100,68 +111,10 @@ export default class ProductManager {
       let products = await this.getProducts();
       products = products.filter((product) => product.id !== id);
       await fs.promises.writeFile(this.path, JSON.stringify(products, null, 2));
+      return true;
     } catch (error) {
       console.error(error);
+      return false;
     }
   };
 }
-
-// const manager = new ProductManager("./products.json");
-// const products = await manager.getProducts();
-
-// console.log("TEST 1");
-// console.log("Al principio la lista de productos esta vacia:", products);
-// console.log();
-// console.log("===============");
-
-// console.log("TEST 2");
-// console.log("Es posible agregar un nuevo producto");
-
-// await manager.addProduct(
-//   "producto prueba",
-//   "Este es un producto prueba",
-//   200,
-//   "Sin imagen",
-//   "abc123",
-//   25
-// );
-
-// console.log("products:", await manager.getProducts());
-
-// console.log();
-// console.log("===============");
-
-// console.log("Luego sera posible obtener un producto con su id");
-// console.log("product", await manager.getProductById(1));
-// console.log();
-// console.log("===============");
-
-// console.log("Tambien sera posible actualizar un producto especifico con el id");
-
-// await manager.addProduct(
-//   "MacBook Air",
-//   "Revolucionado con el nuevo chip M2",
-//   1500,
-//   "Sin imagen",
-//   "AA89R45Q",
-//   50
-// );
-
-// const macbook = await manager.getProductById(2);
-
-// console.log("macbook", macbook, await manager.getProducts());
-
-// await manager.updateProduct(2, {
-//   ...macbook,
-//   title: "Macbook Pro",
-// });
-
-// console.log("products", await manager.getProducts());
-
-// console.log("Tambien es posible eliminar un producto por id");
-// await manager.deleteProduct(2);
-
-// console.log("products", await manager.getProducts());
-
-// console.log();
-// console.log("===============");

@@ -1,0 +1,35 @@
+[
+	{
+		"title": "producto prueba",
+		"description": "Este es un producto prueba",
+		"price": 200,
+		"thumbnails": [],
+		"code": "abc123",
+		"stock": 25,
+		"status": false,
+		"category": "",
+		"id": 1
+	},
+	{
+		"id": 2,
+		"status": true,
+		"title": "Remera",
+		"description": "Especial para entrenar",
+		"price": 900,
+		"thumbnails": [],
+		"code": "9236",
+		"stock": 40,
+		"category": "Remera"
+	},
+	{
+		"id": 3,
+		"status": true,
+		"title": "Pantalon",
+		"description": "Especial para entrenar",
+		"price": 500,
+		"thumbnails": [],
+		"code": "234",
+		"stock": 10,
+		"category": "Pantalones"
+	}
+]
