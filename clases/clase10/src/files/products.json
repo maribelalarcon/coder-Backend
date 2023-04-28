@@ -1,0 +1,68 @@
+[
+  {
+    "title": "producto prueba",
+    "description": "Este es un producto prueba",
+    "price": 200,
+    "thumbnails": [],
+    "code": "abc123",
+    "stock": 25,
+    "status": false,
+    "category": "",
+    "id": 1
+  },
+  {
+    "id": 3,
+    "status": true,
+    "title": "Pantalon",
+    "description": "Especial para entrenar",
+    "price": 500,
+    "thumbnails": [],
+    "code": "234",
+    "stock": 10,
+    "category": "Pantalones"
+  },
+  {
+    "id": 4,
+    "status": true,
+    "title": "Remera",
+    "description": "Especial para entrenar",
+    "price": 1000,
+    "thumbnails": [],
+    "code": "296",
+    "stock": 10,
+    "category": "Ropa"
+  },
+  {
+    "id": 5,
+    "status": true,
+    "title": "Remera",
+    "description": "Especial para entrenar",
+    "price": 1000,
+    "thumbnails": [],
+    "code": "2996",
+    "stock": 10,
+    "category": "Ropa"
+  },
+  {
+    "id": 6,
+    "status": true,
+    "title": "Remera 3",
+    "description": "Especial para entrenar",
+    "price": 1000,
+    "thumbnails": [],
+    "code": "1111",
+    "stock": 10,
+    "category": "Ropa"
+  },
+  {
+    "id": 7,
+    "status": true,
+    "title": "Buzo 3",
+    "description": "Especial para entrenar",
+    "price": 1000,
+    "thumbnails": [],
+    "code": "1231",
+    "stock": 10,
+    "category": "Ropa"
+  }
+]
