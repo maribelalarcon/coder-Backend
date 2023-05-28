@@ -1,0 +1,25 @@
+<a href="/carts/646f7c37b73924de219afb16">Ir al carrito</a>
+
+<section>
+  <h1>Products</h1>
+  {{#each products}}
+    <article>
+      <h4>{{this.title}}
+        <strong>€{{this.price}}</strong>
+        <button
+          onclick="javascript:addProductToCart('{{this._id}}')"
+        >🛒</button>
+      </h4>
+      <p>{{this.description}}</p>
+    </article>
+  {{/each}}
+
+  {{#if hasPrevPage}}
+    <a href="/products?page={{prevPage}}"><button>Anterior</button></a>
+  {{/if}}
+
+  {{#if hasNextPage}}
+    <a href="/products?page={{nextPage}}"><button>Siguiente</button></a>
+  {{/if}}
+</section>
+<script src="/app.js"></script>
