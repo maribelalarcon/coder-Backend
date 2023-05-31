@@ -1,11 +1,21 @@
 <a href="/carts/646f7c37b73924de219afb16">Ir al carrito</a>
 
 <section>
+  <p>
+    Bienvenido
+    {{session.name}}
+    <button onclick="javascript:logout()">Log out</button>
+  </p>
   <h1>Products</h1>
   {{#each products}}
     <article>
       <h4>{{this.title}}
         <strong>€{{this.price}}</strong>
+        {{#if ../isAdmin}}
+          <button
+            onclick="javascript:addProductToCart('{{this._id}}')"
+          >Edit</button>
+        {{/if}}
         <button
           onclick="javascript:addProductToCart('{{this._id}}')"
         >🛒</button>

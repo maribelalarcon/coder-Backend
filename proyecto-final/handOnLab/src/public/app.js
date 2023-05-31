@@ -5,3 +5,10 @@ async function addProductToCart(productId) {
     method: "POST",
   });
 }
+
+async function logout() {
+  const result = await fetch("/api/sessions/logout");
+  if (result.status === 200) {
+    window.location = "/login";
+  }
+}

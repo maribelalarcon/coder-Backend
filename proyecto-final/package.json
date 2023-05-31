@@ -2,9 +2,9 @@
   "name": "backendcoderhouse",
   "type": "module",
   "version": "1.0.0",
-  "main": "src/app.js",
+  "main": "handOnLab/src/app.js",
   "scripts": {
-    "start": "nodemon src/app.js",
+    "start": "nodemon handOnLab/src/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -18,8 +18,11 @@
   },
   "homepage": "https://github.com/maribelalarcon/coder-Backend#readme",
   "dependencies": {
+    "connect-mongo": "^5.0.0",
+    "cookie-parser": "^1.4.6",
     "express": "^4.18.2",
     "express-handlebars": "^7.0.7",
+    "express-session": "^1.17.3",
     "mongoose": "^7.2.0",
     "mongoose-paginate-v2": "^1.7.1"
   },

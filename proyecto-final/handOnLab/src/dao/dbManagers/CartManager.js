@@ -6,8 +6,8 @@ export default class CartManager {
   }
 
   getCarts = async () => {
-    const cart = await cartModel.find();
-    return cart.map((map) => cart.toObject());
+    const carts = await cartModel.find().lean();
+    return carts;
   };
 
   addCart = async (cartData) => {

@@ -6,6 +6,16 @@ const router = Router();
 const cartManager = new CartManager();
 const productManager = new ProductManager();
 
+const publicAccess = (req, res, next) => {
+  if (req.session.user) return res.redirect("/products");
+  next();
+};
+
+const privateAccess = (req, res, next) => {
+  if (!req.session.email) return res.redirect("/login");
+  next();
+};
+
 router.get("/", async (req, res) => {
   try {
     const carts = await cartManager.getCarts();
@@ -15,7 +25,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/products", async (req, res) => {
+router.get("/products", privateAccess, async (req, res) => {
   const { page, limit = 2, sort, query } = req.query;
 
   try {
@@ -28,6 +38,8 @@ router.get("/products", async (req, res) => {
       });
 
     res.render("products", {
+      session: req.session,
+      isAdmin: req.session.rol === "admin",
       products: docs,
       hasPrevPage,
       hasNextPage,
@@ -40,7 +52,7 @@ router.get("/products", async (req, res) => {
   }
 });
 
-router.get("/carts/:cid", async (req, res) => {
+router.get("/carts/:cid", privateAccess, async (req, res) => {
   const cid = req.params.cid;
   const cart = await cartManager.getCartById(cid);
 
@@ -49,6 +61,20 @@ router.get("/carts/:cid", async (req, res) => {
   } else {
     res.status(404).send({ error: "El carrito no existe" });
   }
+});
+
+router.get("/register", publicAccess, (req, res) => {
+  res.render("register");
+});
+
+router.get("/login", publicAccess, (req, res) => {
+  res.render("login");
+});
+
+router.get("/", privateAccess, (req, res) => {
+  res.render("profile", {
+    user: req.session.user,
+  });
 });
 
 export default router;
