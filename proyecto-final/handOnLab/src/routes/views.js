@@ -16,15 +16,6 @@ const privateAccess = (req, res, next) => {
   next();
 };
 
-router.get("/", async (req, res) => {
-  try {
-    const carts = await cartManager.getCarts();
-    res.render("carts", { carts });
-  } catch (error) {
-    console.log(error);
-  }
-});
-
 router.get("/products", privateAccess, async (req, res) => {
   const { page, limit = 2, sort, query } = req.query;
 

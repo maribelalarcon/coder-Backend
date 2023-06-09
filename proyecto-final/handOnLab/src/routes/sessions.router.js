@@ -1,71 +1,96 @@
 import { Router } from "express";
 import userModel from "../dao/models/user.model.js";
+import passport from "passport";
+import { createHash } from "../utils.js";
 
 const router = Router();
 
-router.post("/register", async (req, res) => {
-  try {
-    const { first_name, last_name, email, password } = req.body;
-    const exists = await userModel.findOne({ email });
+router.post(
+  "/register",
+  passport.authenticate("register", { failureRedirect: "fail-register" }),
+  async (req, res) => {
+    res.send({ status: "success", message: "User registered" });
+  }
+);
 
-    if (exists)
+router.get("/fail-register", async (req, res) => {
+  res.send({ status: "error", message: "Register failed" });
+});
+
+router.post(
+  "/login",
+  passport.authenticate("login", { failureRedirect: "fail-login" }),
+  async (req, res) => {
+    console.log("user", req.user);
+
+    if (req.user) {
+      req.session.name = req.user.name;
+      req.session.email = req.user.email;
+      req.session.rol = req.user.rol;
+
+      return res.status(200).send({ success: "Bienvenido" });
+    }
+
+    return res
+      .status(400)
+      .send({ status: "error", error: "Invalid credentials" });
+  }
+);
+
+router.get("/fail-login", async (req, res) => {
+  res.send({ status: "error", message: "Login failed" });
+});
+
+router.get(
+  "/github",
+  passport.authenticate("github", { scope: ["user:email"] }),
+  async (req, res) => {
+    res.send({ status: "success", message: "User registered" });
+  }
+);
+
+router.get(
+  "/github-callback",
+  passport.authenticate("github", { failureRedirect: "/login" }),
+  async (req, res) => {
+    console.log("github user", req.user);
+
+    req.session.name = req.user.name;
+    req.session.email = req.user.email;
+    req.session.rol = req.user.rol;
+    res.redirect("/products");
+  }
+);
+
+router.post("/reset", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password)
       return res
         .status(400)
-        .send({ status: "error", error: "El usuario ya existe" });
+        .send({ status: "error", error: "Incomplete values" });
 
-    const user = {
-      email,
-      password,
-      first_name,
-      last_name,
-    };
+    const user = await userModel.findOne({ email });
 
-    await userModel.create(user);
+    if (!user)
+      return res.status(400).send({ status: "error", error: "User not found" });
 
-    res.send({ status: "success", message: "Usuario registrado con exito" });
+    user.password = createHash(password);
+
+    await userModel.updateOne({ email }, user);
+
+    res.send({ status: "success", message: "Password reset" });
   } catch (error) {
-    res.status(500).send({ status: "error", error });
+    res.status(500).send({ status: "error", error: error.message });
   }
 });
 
-router.post("/login", async (req, res) => {
-  console.log("session", req.session);
-
-  if (req.session?.email)
-    return res.status(200).send({ success: "Bienvenido" });
-
-  if (
-    req.body.email === "adminCoder@coder.com" &&
-    req.body.password === "adminCod3r123"
-  ) {
-    req.session.name = "Coder House";
-    req.session.email = req.body.email;
-    req.session.rol = "admin";
-
-    return res.status(200).send({ success: "Bienvenido" });
-  }
-
-  const user = await userModel.findOne({ email: req.body.email });
-
-  if (user) {
-    if (user.password === req.body.password) {
-      req.session.name = `${user.first_name} ${user.last_name}`;
-      req.session.email = req.body.email;
-      req.session.rol = "usuario";
-      res.status(200).send({ success: "Bienvenido" });
-    } else {
-      res.status(400).send({ error: "Contraseña incorrecta" });
-    }
-  } else {
-    res.status(400).send({ error: "El usuario no existe" });
-  }
-});
-
-//se cierra la session
 router.get("/logout", (req, res) => {
   req.session.destroy((error) => {
-    if (error) return restart.status(500).send({ status: "error", error });
-    res.status(200).send({ sucess: "Usuario deslogueado correctamente " });
+    console.log("logout error", error);
+    if (error) return res.status(500).send({ status: "error", error });
+    res.redirect("/");
   });
 });
 

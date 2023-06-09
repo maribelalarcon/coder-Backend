@@ -8,6 +8,8 @@ import handlebars from "express-handlebars";
 import mongoose from "mongoose";
 import session from "express-session";
 import MongoStore from "connect-mongo";
+import passport from "passport";
+import initializePassport from "./config/passport.config.js";
 
 const app = express();
 
@@ -34,7 +36,9 @@ app.use(
     saveUninitialized: true,
   })
 );
-
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(express.static(`${__dirname}/public`));
 
 app.engine("handlebars", handlebars.engine());
