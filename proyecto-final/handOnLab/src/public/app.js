@@ -1,4 +1,8 @@
-const CART_ID = "646f7c37b73924de219afb16";
+const CART_ID = localStorage.getItem("cartId");
+
+function goToCart() {
+  window.location = `/carts/${CART_ID}`;
+}
 
 async function addProductToCart(productId) {
   return fetch(`/api/carts/${CART_ID}/product/${productId}`, {

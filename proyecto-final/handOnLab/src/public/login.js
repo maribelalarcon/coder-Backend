@@ -5,17 +5,9 @@ form.addEventListener("submit", (e) => {
   const data = new FormData(form);
   const obj = {};
 
-  /*
-
-  {
-    "email": "leferreyra@gmail.com",
-    "password": "kajsdfkaskdf"
-  }
-
-  */
-
   data.forEach((value, key) => (obj[key] = value));
 
+  console.log("haciendo login...");
   fetch("/api/sessions/login", {
     method: "POST",
     body: JSON.stringify(obj),
@@ -24,7 +16,20 @@ form.addEventListener("submit", (e) => {
     },
   }).then((result) => {
     if (result.status === 200) {
-      window.location.replace("/products");
+      console.log("creando carrito...");
+      fetch("/api/carts", {
+        method: "POST",
+        body: JSON.stringify({ products: [] }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => response.json())
+        .then((cart) => {
+          console.log("guardando cartId y redirigiendo...");
+          localStorage.setItem("cartId", cart._id);
+          window.location.href = "/products";
+        });
     }
   });
 });
