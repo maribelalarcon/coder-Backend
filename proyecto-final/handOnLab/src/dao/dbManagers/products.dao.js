@@ -1,6 +1,6 @@
 import productModel from "../models/product.model.js";
 
-export default class ProductManager {
+export default class ProductsDao {
   getProducts = async ({ page = 1, limit = 10, sort, query = {} }) => {
     const { docs, hasPrevPage, hasNextPage, nextPage, prevPage, totalPages } =
       await productModel.paginate(query, {

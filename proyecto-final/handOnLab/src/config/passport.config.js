@@ -1,7 +1,7 @@
+import * as UserService from "../services/user.service.js";
 import passport from "passport";
 import local from "passport-local";
 import GitHubStrategy from "passport-github2";
-import userModel from "../dao/models/user.model.js";
 import { createHash, isValidPassword } from "../utils.js";
 
 const LocalStrategy = local.Strategy;
@@ -18,7 +18,7 @@ const initializePassport = () => {
         console.log("user");
         const { first_name, last_name } = req.body;
         try {
-          const exists = await userModel.findOne({ email: username });
+          const exists = await UserService.findByEmail(username);
 
           if (exists) return done("El usuario ya existe");
 
@@ -29,7 +29,7 @@ const initializePassport = () => {
             password: createHash(password),
           };
 
-          const result = await userModel.create(user);
+          const result = await UserService.create(user);
 
           return done(null, result);
         } catch (error) {
@@ -58,11 +58,7 @@ const initializePassport = () => {
             });
           }
 
-          const user = await userModel
-            .findOne({
-              email: username,
-            })
-            .lean();
+          const user = await UserService.findByEmail(username);
 
           console.log("user", user);
 
@@ -97,7 +93,7 @@ const initializePassport = () => {
       async (accessToken, refreshToken, profile, done) => {
         try {
           const email = profile.emails[0].value;
-          const user = await userModel.findOne({ email }).lean();
+          const user = await UserService.findByEmail(email);
           console.log("profile", profile);
           if (!user) {
             const newUser = {
@@ -107,7 +103,7 @@ const initializePassport = () => {
               password: "",
             };
 
-            const result = await userModel.create(newUser);
+            const result = await UserService.create(newUser);
 
             done(null, {
               ...result,
@@ -131,7 +127,7 @@ const initializePassport = () => {
   });
 
   passport.deserializeUser(async (id, done) => {
-    const user = await userModel.findById(id);
+    const user = await UserService.findById(id);
     done(null, user);
   });
 };

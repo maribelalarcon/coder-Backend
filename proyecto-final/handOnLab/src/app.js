@@ -10,19 +10,12 @@ import session from "express-session";
 import MongoStore from "connect-mongo";
 import passport from "passport";
 import initializePassport from "./config/passport.config.js";
+import "./dao/dbManagers/dbConfig.js";
 
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-try {
-  await mongoose.connect(
-    "mongodb+srv://maribelsoledadalarcon:JePcVZ4BBPLRixXn@cluster0.uljtdd8.mongodb.net/?retryWrites=true&w=majority"
-  );
-} catch (error) {
-  console.log(error);
-}
 
 //sesion trabajando mongo storage
 app.use(
@@ -36,7 +29,9 @@ app.use(
     saveUninitialized: true,
   })
 );
+
 initializePassport();
+
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(`${__dirname}/public`));
